@@ -1,0 +1,20 @@
+name: matrix demo
+on: push
+jobs:
+  build:
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: get code
+        uses: actions/checkout@v4
+      - name: install nodeJS
+        uses: actions/set-upnode@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install dependencies
+        run: npm ci
+      - name: build project
+        run: npm run build
